@@ -1,0 +1,85 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:converters="clr-namespace:DynamicTabs.Converters"
+             xmlns:views="clr-namespace:DynamicTabs.Views"
+             xmlns:local="clr-namespace:DynamicTabs.ViewModels"
+             x:Class="DynamicTabs.Views.MainView">
+  <Control.Resources>
+    <converters:BitmapValueConverter x:Key="myBitmapValueConverter" />
+  </Control.Resources>
+
+  <UserControl.KeyBindings>
+    <KeyBinding Gesture="Ctrl+Q" Command="{Binding $parent[Window].DataContext.Quit}" />
+  </UserControl.KeyBindings>
+
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="File">
+        <MenuItem Header="Выход" Command="{Binding $parent[Window].DataContext.Quit}" />
+      </MenuItem>
+    </Menu>
+
+    <Panel DockPanel.Dock="Bottom">
+      <views:StatusbarView x:Name="Statusbar"/>
+    </Panel>
+
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.45*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+
+      <Panel Grid.Column="0" Grid.RowSpan="4" Margin="4">
+        <views:NavigationView x:Name="Navigation"/>
+      </Panel>
+
+      <GridSplitter Grid.Column="1"
+        Grid.RowSpan="4"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Stretch"
+        Background="LightGray"
+        Width="5"/>
+
+      <Panel Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" Margin="5" HorizontalAlignment="Stretch">
+        <TabControl Items="{Binding TabsList}" SelectedItem="{Binding SelectedTab}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+
+          <TabControl.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <!-- <Image Source="/Assets/stor.png" Width="16" Height="16" /> -->
+                <Image Source="{Binding Path=UserTabItem.TabImage, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" />
+                <TextBlock Text=" " VerticalAlignment="Center" />
+                <TextBlock Text="{Binding UserTabItem.TabTitle}" VerticalAlignment="Center" />
+                <TextBlock Text=" " VerticalAlignment="Center" />
+                <Button Width="16" Height="16" Margin="1" ToolTip.Tip="Закрыть" Command="{Binding $parent[UserControl].DataContext.CloseTab}" CommandParameter="{Binding .}">
+                  <Image Source="/Assets/tab_close16.png" Width="16" Height="16" />
+                  <Button.Styles>
+                    <Style Selector="Button">
+                      <Setter Property="BorderThickness" Value="0" />
+                      <Setter Property="Background" Value="Transparent" />
+                      <!-- <Setter Property="Opacity" Value="0" /> -->
+                    </Style>
+                  </Button.Styles>
+                </Button>
+              </StackPanel>
+            </DataTemplate>
+          </TabControl.ItemTemplate>
+
+        </TabControl>
+      </Panel>
+
+    </Grid>
+
+  </DockPanel>
+</UserControl>

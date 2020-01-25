@@ -1,0 +1,258 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:converters="clr-namespace:DynamicTabs.Converters"
+             xmlns:views="clr-namespace:DynamicTabs.Views"
+             x:Class="DynamicTabs.Views.CalibrateView">
+  <Control.Resources>
+    <converters:BitmapValueConverter x:Key="myBitmapValueConverter" />
+  </Control.Resources>
+
+  <DockPanel Background="Gray">
+    <StackPanel DockPanel.Dock="Top">
+      <views:ToolbarView x:Name="ToolbarDesks"/>
+    </StackPanel>
+
+    <Panel DockPanel.Dock="Bottom">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <!-- <RowDefinition Height="0.4*" /> -->
+          <RowDefinition Height="300" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Margin="2">
+          <!-- <Grid.ContextMenu>
+            <views:ContextMenuView x:Name="ContextMenuDesks"/>
+          </Grid.ContextMenu> -->
+          <!-- <ProgressBar Value="{Binding CalibLoading}" Margin="1" Height="3" DockPanel.Dock="Top" /> -->
+          <ProgressBar IsIndeterminate="True" IsVisible="{Binding CalibLoading}" Margin="1" Height="3" DockPanel.Dock="Top" />
+          <DataGrid
+            x:Name="clbDataGrid"
+            AutoGenerateColumns="False"
+            Items="{Binding CalibList}"
+            SelectedItem="{Binding SelectedCalib, Mode=TwoWay}"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Auto"
+            GridLinesVisibility="All"
+            HeadersVisibility="All"
+            CanUserResizeColumns="true"
+            CanUserReorderColumns="true"
+            VerticalGridLinesBrush="LightGray"
+            HorizontalGridLinesBrush="LightGray"
+            CanUserSortColumns="false"
+            IsReadOnly="true">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID бака" Width="120" Binding="{Binding tnk.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="ID тарировки" Width="120" Binding="{Binding clb.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="Наименование" Width="120" Binding="{Binding clb_name.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="Плотность" Width="150" Binding="{Binding clb_dens.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="Шаг" Width="150" Binding="{Binding clb_step.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="Тангаж" Width="150" Binding="{Binding clb_alpha.value}" CanUserResize="True" />
+              <DataGridTextColumn Header="Крен" Width="150" Binding="{Binding clb_gamma.value}" CanUserResize="True" />
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+              <ContextMenu Items="{Binding MenuItemsClb}">
+                <ContextMenu.Styles>
+                  <Style Selector="MenuItem">
+                    <Setter Property="Header" Value="{Binding ToolTip}"/>
+                    <Setter Property="Items" Value="{Binding Items}"/>
+                    <Setter Property="Command" Value="{Binding Command}"/>
+                    <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+                    <Setter Property="Icon">
+                      <Setter.Value>
+                        <Template>
+                          <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="4" />
+                        </Template>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </ContextMenu.Styles>
+              </ContextMenu>
+            </DataGrid.ContextMenu>
+
+          </DataGrid>
+        </DockPanel>
+
+        <GridSplitter
+          Grid.Column="1"
+          Grid.Row="0"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Stretch"
+          Background="LightGray"
+          Width="5"
+        />
+
+        <DockPanel Grid.Column="2" Grid.Row="0" Margin="2">
+          <Canvas Background="LightCyan" Width="200" Height="200">
+            <Rectangle Fill="Blue" Width="63" Height="41" Canvas.Left="40" Canvas.Top="31">
+              <Rectangle.OpacityMask>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                  <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="0" Color="Black"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                  </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+              </Rectangle.OpacityMask>
+            </Rectangle>
+          </Canvas>
+        </DockPanel>
+
+        <GridSplitter
+          Grid.Column="0"
+          Grid.Row="1"
+          Grid.ColumnSpan="3"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Center"
+          Background="LightGray"
+          Height="5"
+        />
+
+        <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="2">
+          <!-- <ProgressBar Value="{Binding LevelLoading}" Margin="1" Height="3" DockPanel.Dock="Top" /> -->
+          <ProgressBar IsIndeterminate="True" IsVisible="{Binding LevelLoading}" Margin="1" Height="3" DockPanel.Dock="Top" />
+          <DataGrid
+            x:Name="lvlDataGrid"
+            AutoGenerateColumns="False"
+            Items="{Binding LevelList}"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Auto"
+            GridLinesVisibility="All"
+            HeadersVisibility="All"
+            CanUserResizeColumns="true"
+            CanUserReorderColumns="true"
+            VerticalGridLinesBrush="LightGray"
+            HorizontalGridLinesBrush="LightGray"
+            CanUserSortColumns="false"
+            IsReadOnly="true">
+            <DataGrid.Columns>
+              <!-- <DataGridTextColumn Header="Имя111" Width="120" Binding="{Binding lvl_numb.value}" CanUserResize="True" /> -->
+              <!-- <DataGridTextColumn Header="Описание111" Width="150" Binding="{Binding lvl_name.value}" CanUserResize="True" /> -->
+              <!-- <DataGridTextColumn Header="{Binding Path=LevelItemTitles.lvl_name.title}" Width="150" Binding="{Binding lvl_name.value}" CanUserResize="True" /> -->
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_numb.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_numb.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_height.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_height.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_name.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_name.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_m.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_m.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_x.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_x.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_y.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_y.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_z.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_z.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_mtype.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_mtype.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_ix.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_ix.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_iy.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_iy.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_iz.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_iz.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_ixy.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_ixy.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_iyz.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_iyz.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn Width="150" Binding="{Binding lvl_ixz.value}" CanUserResize="True">
+                <DataGridTextColumn.Header>
+                  <TextBlock Text="{Binding LevelItemTitles.lvl_ixz.title}" Margin="0" />
+                </DataGridTextColumn.Header>
+              </DataGridTextColumn>
+
+              <!-- <DataGridTextColumn Header="{Binding lvl_name.title}" Width="150" Binding="{Binding lvl_name.value}" CanUserResize="True" /> -->
+              <!-- <DataGridTextColumn Header="Qqq" Width="120" Binding="{Binding Path=Slvl.lvl_name.value}" CanUserResize="True" /> -->
+              <!-- <DataGridTextColumn Header="Qqq" Width="120" Binding="{Binding Slvl.lvl_height.value}" CanUserResize="True" /> -->
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+              <ContextMenu Items="{Binding MenuItemsLvl}">
+                <ContextMenu.Styles>
+                  <Style Selector="MenuItem">
+                    <Setter Property="Header" Value="{Binding ToolTip}"/>
+                    <Setter Property="Items" Value="{Binding Items}"/>
+                    <Setter Property="Command" Value="{Binding Command}"/>
+                    <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+                    <Setter Property="Icon">
+                      <Setter.Value>
+                        <Template>
+                          <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="4" />
+                        </Template>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </ContextMenu.Styles>
+              </ContextMenu>
+            </DataGrid.ContextMenu>
+
+          </DataGrid>
+        </DockPanel>
+
+      </Grid>
+    </Panel>
+  </DockPanel>
+</UserControl>

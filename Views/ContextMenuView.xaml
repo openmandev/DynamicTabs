@@ -1,0 +1,40 @@
+<ContextMenu xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:local="clr-namespace:DynamicTabs.Converters"
+             x:Class="DynamicTabs.Views.ContextMenuView">
+    <!-- <Control.Resources>
+      <local:BitmapValueConverter x:Key="myBitmapValueConverter" />
+    </Control.Resources> -->
+
+    <!-- <ContextMenu Items="{Binding MenuList}"> -->
+      <MenuItem Header="Добавить узел" Command="{Binding TreeItemAdd}">
+        <MenuItem.Icon>
+          <!-- <Ellipse Height="10" Width="10" Fill="Cyan" /> -->
+          <!-- <Image Source="resm:DynamicTabs.Assets.WeightDesign32.png" Width="10" /> -->
+          <!-- <Image Source="/Assets/WeightDesign32.png" /> -->
+          <Image Source="/Assets/attr.png" Width="16" Height="16" />
+          <!-- <Image Source="avalonia-logo.ico" /> -->
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Удалить узел" Command="{Binding TreeItemDel}" CommandParameter="{Binding SelectedNode}">
+        <MenuItem.Icon>
+          <Ellipse Height="10" Width="10" Fill="Red" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Тест 2">
+        <MenuItem.Icon>
+          <Ellipse Height="10" Width="10" Fill="Magenta" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <Separator />
+      <MenuItem Header="Тест 3">
+        <MenuItem.Icon>
+          <!-- <Ellipse Height="10" Width="10" Fill="Blue" /> -->
+          <CheckBox BorderThickness="0" IsHitTestVisible="False" IsChecked="True"/>
+        </MenuItem.Icon>
+      </MenuItem>
+    </ContextMenu>
+<!-- </UserControl> -->

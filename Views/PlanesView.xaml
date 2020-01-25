@@ -1,0 +1,158 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:converters="clr-namespace:DynamicTabs.Converters"
+             xmlns:views="clr-namespace:DynamicTabs.Views"
+             xmlns:local="clr-namespace:DynamicTabs.Models"
+             x:Class="DynamicTabs.Views.PlanesView">
+  <Control.Resources>
+    <converters:BitmapValueConverter x:Key="myBitmapValueConverter" />
+
+    <DataTemplate x:Key="MenubarItemTemplate1" DataType="{x:Type local:MenubarItem}">
+      <MenuItem Background="Red" Header="{Binding Header}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="MenubarSeparatorTemplate1" DataType="{x:Type local:MenubarSeparator}">
+      <Separator />
+    </DataTemplate>
+
+  </Control.Resources>
+
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Top">
+      <views:ToolbarView x:Name="ToolbarNodes"/>
+    </StackPanel>
+
+    <ProgressBar IsIndeterminate="True" IsVisible="{Binding DataProgress}" Margin="1" Height="3" DockPanel.Dock="Top" />
+
+    <ScrollViewer>
+      <StackPanel>
+
+        <TextBlock Text="{Binding SelectedNode.Name}" />
+
+        <TreeView x:Name="treeViewPlanes" Margin="4" Items="{Binding NodesRoot}" SelectedItem="{Binding SelectedNode}">
+          <TreeView.Resources>
+            <Style x:Key="ContextMenuStyle" Selector="MenuItem">
+              <Setter Property="Header" Value="{Binding Header}"/>
+              <Setter Property="Items" Value="{Binding Items}"/>
+              <Setter Property="Command" Value="{Binding Command}"/>
+              <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+              <Setter Property="Icon">
+                <Setter.Value>
+                  <Template>
+                    <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="4" />
+                  </Template>
+                </Setter.Value>
+              </Setter>
+              <!-- <Setter Property="Template" Value="{StaticResource MenubarItemTemplate1}"/> -->
+            </Style>
+            <Style x:Key="ContextMenuStyleSep" Selector="Separator">
+              <!-- <Setter Property="Template" Value="{StaticResource MenubarSeparatorTemplate1}"/> -->
+            </Style>
+          </TreeView.Resources>
+
+          <TreeView.DataTemplates>
+
+            <TreeDataTemplate ItemsSource="{Binding Path=Nodes}" DataType="{x:Type local:PlaneItem}">
+              <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="0" />
+                <TextBlock Text=" " />
+                <TextBlock Text="{Binding Code}" />
+                <TextBlock Text=" (" />
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text=")" />
+                <StackPanel.Styles>
+                  <Style Selector="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                  </Style>
+                </StackPanel.Styles>
+
+                <!-- <StackPanel.Resources>
+                  <DataTemplate x:Key="MenubarItemTemplate" DataType="{x:Type local:MenubarItem}">
+                    <MenuItem Background="Red" Header="{Binding Header}" />
+                  </DataTemplate>
+                  <DataTemplate x:Key="MenubarSeparatorTemplate" DataType="{x:Type local:MenubarSeparator}">
+                    <Separator />
+                  </DataTemplate>
+                </StackPanel.Resources> -->
+
+                <StackPanel.ContextMenu>
+                  <ContextMenu Items="{Binding $parent[UserControl].DataContext.MenuItemsPln}" Styles="{StaticResource ContextMenuStyle}">
+                  <!-- <ContextMenu Items="{Binding $parent[UserControl].DataContext.MenuItemsPln}" Styles="{StaticResource ContextMenuStyle}"
+                    ItemTemplate="{StaticResource MenubarItemTemplate}"> -->
+                  <!-- <ContextMenu Items="{Binding $parent[UserControl].DataContext.MenuItemsPln}"
+                    > -->
+
+                    <!-- <ContextMenu.ItemsPanel>
+                      <Style Selector="MenuItem">
+                        <Setter Property="Template">
+                          <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                              <Border BorderBrush="Blue" BorderThickness="1" Margin="2" Width="100" Height="100">
+                                <ContentPresenter ContentSource="Header"/>
+                              </Border>
+                            </ControlTemplate>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </ContextMenu.ItemsPanel> -->
+                    
+                    <!-- <ContextMenu.Template> -->
+                      <!-- <DataTemplate DataType="{x:Type local:MenubarItem}"> -->
+                        <!-- <ControlTemplate> -->
+                        <!-- <MenuItem /> -->
+                        <!-- <Separator /> -->
+                        <!-- </ControlTemplate> -->
+                      <!-- </DataTemplate> -->
+                      <!-- <DataTemplate DataType="{x:Type local:null}">
+                        <Separator />
+                      </DataTemplate> -->
+                    <!-- </ContextMenu.Template> -->
+                  </ContextMenu>
+                </StackPanel.ContextMenu>
+
+              </StackPanel>
+            </TreeDataTemplate>
+
+            <TreeDataTemplate ItemsSource="{Binding Path=Nodes}" DataType="{x:Type local:TankItem}">
+              <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="0" />
+                <TextBlock Text=" " />
+                <TextBlock Text="{Binding Code}" />
+                <TextBlock Text=" (" />
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text=")" />
+                <StackPanel.Styles>
+                  <Style Selector="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                  </Style>
+                </StackPanel.Styles>
+
+                <StackPanel.ContextMenu>
+                  <ContextMenu Items="{Binding $parent[UserControl].DataContext.MenuItemsTnk}" Styles="{StaticResource ContextMenuStyle}">
+                  </ContextMenu>
+                </StackPanel.ContextMenu>
+
+              </StackPanel>
+            </TreeDataTemplate>
+
+          </TreeView.DataTemplates>
+
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem">
+              <!-- <Setter Property="IsExpanded" Value="{Binding Expanded}"/> -->
+              <Setter Property="IsExpanded" Value="True"/>
+            </Style>
+          </TreeView.Styles>
+
+        </TreeView>
+
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

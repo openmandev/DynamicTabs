@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:DynamicTabs.ViewModels;assembly=DynamicTabs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:converters="clr-namespace:DynamicTabs.Converters"
+        x:Class="DynamicTabs.Views.MainWindow"
+        Icon="/Assets/WeightDesign32.png"
+        Title="Dynamic Tabs"
+        Width="1200"
+        Height="800"
+        Content="{Binding Content}">
+
+  <Window.Styles>
+    <Style Selector="TabControl">
+      <!-- <Setter Property="Background" Value="#F0F0F0"/> -->
+      <!-- <Setter Property="Height" Value="20"/> -->
+    </Style>
+    <!-- <Style Selector="TabControl WrapPanel">
+      <Setter Property="Background" Value="#2B579A"/>
+    </Style> -->
+
+    <Style Selector="TabItem">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontWeight" Value="Normal"/>
+      <!-- <Setter Property="Height" Value="24"/> -->
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <!-- <Setter Property="Background" Value="#2B579A"/> -->
+      <!-- <Setter Property="Foreground" Value="#F0F0F0"/> -->
+      <Setter Property="Margin" Value="1 0 0 0"/>
+      <Setter Property="Padding" Value="8 4"/>
+    </Style>
+    <!-- Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#124078"/>
+    </Style>
+
+    <Style Selector="TabItem:focus">
+      <Setter Property="Foreground" Value="#2B579A"/>
+      <Setter Property="Margin" Value="0 0 0 0"/>
+      <Setter Property="Padding" Value="10 0"/>
+    </Style>
+    <Style Selector="TabItem:focus /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#f0f0f0"/>
+    </Style>
+
+    <Style Selector="TabItem:selected">
+      <Setter Property="Foreground" Value="#2B579A"/>
+      <Setter Property="Margin" Value="0 0 0 0"/>
+      <Setter Property="Padding" Value="10 0"/>
+    </Style>
+    <Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#f0f0f0"/>
+    </Style -->
+  </Window.Styles>
+
+  <Window.Resources>
+    <converters:BitmapValueConverter x:Key="myBitmapValueConverterGlobal" />
+  </Window.Resources>
+</Window>

@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:converters="clr-namespace:DynamicTabs.Converters"
+             xmlns:views="clr-namespace:DynamicTabs.Views"
+             x:Class="DynamicTabs.Views.NavigationView">
+  <Control.Resources>
+    <converters:BitmapValueConverter x:Key="myBitmapValueConverter" />
+  </Control.Resources>
+
+  <TreeView x:Name="treeViewMain" Items="{Binding NodesRoot}" SelectedItem="{Binding SelectedNode}">
+
+    <TreeView.ItemTemplate>
+      <TreeDataTemplate ItemsSource="{Binding Path=Nodes}">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/prod.png" Width="16" Height="16" />
+          <TextBlock Text=" " />
+          <TextBlock Text="{Binding Code}" />
+          <TextBlock Text=" (" />
+          <TextBlock Text="{Binding Name}" />
+          <TextBlock Text=")" />
+        </StackPanel>
+      </TreeDataTemplate>
+    </TreeView.ItemTemplate>
+
+    <TreeView.Styles>
+      <Style Selector="TreeViewItem">
+        <Setter Property="IsExpanded" Value="True"/>
+      </Style>
+    </TreeView.Styles>
+
+    <TreeView.ContextMenu>
+      <ContextMenu Items="{Binding MenuItems}">
+        <ContextMenu.Resources>
+          <ControlTemplate x:Key="MenuSeparatorTemplate">
+            <Separator />
+          </ControlTemplate>
+        </ContextMenu.Resources>
+
+        <ContextMenu.Styles>
+          <Style Selector="MenuItem">
+            <Setter Property="Header" Value="{Binding ToolTip}"/>
+            <Setter Property="Items" Value="{Binding Items}"/>
+            <Setter Property="Command" Value="{Binding Command}"/>
+            <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+            <Setter Property="Icon">
+              <Setter.Value>
+                <Template>
+                  <Image Source="{Binding Path=ImagePath, Converter={StaticResource myBitmapValueConverter}}" Width="16" Height="16" Margin="4" />
+                </Template>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ContextMenu.Styles>
+      </ContextMenu>
+    </TreeView.ContextMenu>
+
+  </TreeView>
+
+</UserControl>
